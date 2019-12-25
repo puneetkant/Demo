@@ -18,8 +18,7 @@
                 Margin="0,30,0,0"
                 Text="Login" 
                 Clicked="LoginButton_Clicked"
-                BackgroundColor="{StaticResource buttonBackColor}"
-                TextColor= "{StaticResource buttonTextColor}">
+                Style="{StaticResource normalButton}">
         </Button>
     </StackLayout>
 
