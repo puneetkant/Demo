@@ -21,7 +21,11 @@ namespace TravelRecordApp.UWP
         {
             this.InitializeComponent();
 
-            LoadApplication(new TravelRecordApp.App());
+            string dbname = "travel_db.sqlite";
+            string folder = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
+            string fullPath = Path.Combine("c:\\", dbname);
+
+            LoadApplication(new TravelRecordApp.App(fullPath));
         }
     }
 }

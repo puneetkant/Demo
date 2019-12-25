@@ -25,7 +25,8 @@ namespace TravelRecordApp
                 Experience = experienceEntry.Text
             };
 
-            using (SQLiteConnection conn = new SQLiteConnection(App.DatabasePath))
+            using (SQLiteConnection conn = 
+                new SQLiteConnection(App.DatabasePath))
             {
                 conn.CreateTable<Post>();
                 int rows = conn.Insert(post);
