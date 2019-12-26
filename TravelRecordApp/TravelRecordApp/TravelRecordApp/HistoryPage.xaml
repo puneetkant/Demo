@@ -5,5 +5,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="TravelRecordApp.HistoryPage">
-    <ListView x:Name="postListView"></ListView>
+    <ListView x:Name="postListView" 
+              ItemSelected="postListView_ItemSelected">
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <TextCell Text="{Binding Experience}"/>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
 </ContentPage>
