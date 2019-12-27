@@ -25,6 +25,8 @@ namespace TravelRecordApp.iOS
         {
             global::Xamarin.Forms.Forms.Init();
 
+            Xamarin.FormsMaps.Init();
+
             string dbname = "travel_db.sqlite";
             string folder = Path.Combine(
                 System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal),
