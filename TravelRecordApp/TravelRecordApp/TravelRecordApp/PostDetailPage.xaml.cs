@@ -36,8 +36,8 @@ namespace TravelRecordApp
                     DisplayAlert("Success", "Experience successfully updated", "Ok");
                 else
                     DisplayAlert("Failure", "Experience failed to be updated", "Ok");
-
             }
+            Navigation.PopAsync();
         }
 
         private void deleteButton_Clicked(object sender, EventArgs e)
@@ -54,7 +54,7 @@ namespace TravelRecordApp
                     DisplayAlert("Failure", "Experience failed to be deleted", "Ok");
 
             }
-
+            Navigation.PopAsync();
         }
     }
 }
