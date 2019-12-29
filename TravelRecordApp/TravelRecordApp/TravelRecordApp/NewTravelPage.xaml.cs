@@ -63,7 +63,7 @@ namespace TravelRecordApp
                     Navigation.PopAsync();
                 }
             }
-            catch(Exception ex)
+            catch(Exception)
             {
 
             }
