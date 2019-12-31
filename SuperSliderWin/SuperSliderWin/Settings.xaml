@@ -1,0 +1,41 @@
+﻿<Window x:Class="SuperSliderWin.Settings"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SuperSliderWin"
+        mc:Ignorable="d"
+        Title="Settings" Height="450" Width="400">
+    <StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Label >Timer</Label>
+            <TextBox VerticalAlignment="Center" Width="20">5</TextBox>
+            <Label >sec</Label>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Label >Folder</Label>
+            <TextBox VerticalAlignment="Center" Width="100">"C:\"</TextBox>
+            <Button Margin="5,0,0,0"  Width="20" Height="20">...</Button>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Label >Shuffle</Label>
+            <CheckBox VerticalAlignment="Center"></CheckBox>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Label >Style</Label>
+            <ComboBox VerticalAlignment="Center" Width="100">
+                <ComboBoxItem>Fit</ComboBoxItem>
+                <ComboBoxItem IsSelected="True">Fill</ComboBoxItem>
+                <ComboBoxItem>1:1</ComboBoxItem>
+            </ComboBox>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Label >Style</Label>
+            <ComboBox VerticalAlignment="Center" Width="100">
+                <ComboBoxItem>Fit</ComboBoxItem>
+                <ComboBoxItem IsSelected="True">Fill</ComboBoxItem>
+                <ComboBoxItem>1:1</ComboBoxItem>
+            </ComboBox>
+        </StackPanel>
+    </StackPanel>
+</Window>
