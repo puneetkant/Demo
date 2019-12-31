@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SuperSliderWin"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="SuperSlider" Height="450" Width="800">
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="Tools">
@@ -13,7 +13,8 @@
                 <Separator />
                 <MenuItem Header="_Exit" />
             </MenuItem>
+            <MenuItem x:Name="PlayMenu" Header="Play" Click="PlayMenu_Click"/>
         </Menu>
-        <Image Height="Auto" Width="Auto"/>
+        <Image x:Name="SlideImage" Height="Auto" Width="Auto"/>
     </DockPanel>
 </Window>
