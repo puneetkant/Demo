@@ -25,9 +25,10 @@
             <Label >Style</Label>
             <ComboBox x:Name="SyleCombobox" VerticalAlignment="Center" 
                       Width="100" SelectedValuePath="Content">
-                <ComboBoxItem>Fit</ComboBoxItem>
+                <ComboBoxItem>None</ComboBoxItem>
                 <ComboBoxItem IsSelected="True">Fill</ComboBoxItem>
-                <ComboBoxItem>Original</ComboBoxItem>
+                <ComboBoxItem>Uniform</ComboBoxItem>
+                <ComboBoxItem>UniformToFill</ComboBoxItem>
             </ComboBox>
         </StackPanel>
         <StackPanel Orientation="Horizontal">

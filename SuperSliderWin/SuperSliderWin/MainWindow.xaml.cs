@@ -32,7 +32,7 @@ namespace SuperSliderWin
         {
             InitializeComponent();
             this.Settings = Settings.LoadSettings();
-            playTimer.Interval = new TimeSpan(0,0, this.Settings.Timer);
+            
             playTimer.Tick += new EventHandler(playTimer_Tick);
         }
 
@@ -40,12 +40,12 @@ namespace SuperSliderWin
         {
             int nextRandom = random.Next(0, imageFiles.Length-1);
 
-            BitmapImage bi3 = new BitmapImage();
-            bi3.BeginInit();
-            bi3.UriSource = new Uri(imageFiles[nextRandom], UriKind.Absolute);
-            bi3.EndInit();
-            SlideImage.Stretch = Stretch.Fill;
-            SlideImage.Source = bi3;
+            BitmapImage bitImage = new BitmapImage();
+            bitImage.BeginInit();
+            bitImage.UriSource = new Uri(imageFiles[nextRandom], UriKind.Absolute);
+            bitImage.EndInit();
+            SlideImage.Stretch = Settings.Style;
+            SlideImage.Source = bitImage;
         }
 
         private void settingsMenu_Click(object sender, RoutedEventArgs e)
@@ -75,7 +75,7 @@ namespace SuperSliderWin
 
             imageFiles = Directory.GetFiles(this.Settings.Folders, "*.jpg", SearchOption.AllDirectories);
             random = new Random();
-
+            playTimer.Interval = new TimeSpan(0, 0, this.Settings.Timer);
 
             playTimer.Start();
 

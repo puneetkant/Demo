@@ -47,7 +47,7 @@ namespace SuperSliderWin
             this.Settings.Timer = int.Parse(TimerTextBox.Text);
             this.Settings.Folders = FolderTextBox.Text;
             this.Settings.Shuffle = (bool)ShuffleCheckbox.IsChecked;
-            this.Settings.Style = (Styles)Enum.Parse(typeof(Styles), SyleCombobox.SelectionBoxItem.ToString(), true);
+            this.Settings.Style = (Stretch)Enum.Parse(typeof(Stretch), SyleCombobox.SelectionBoxItem.ToString(), true);
             this.Settings.Position = (Positions)Enum.Parse(typeof(Positions), PositionCombobox.SelectionBoxItem.ToString(), true);
         }
 
