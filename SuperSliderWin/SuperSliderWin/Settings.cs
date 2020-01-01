@@ -25,7 +25,7 @@ namespace SuperSliderWin
             SettingsPath = Path.Combine(folderPath, settingsFileName);
         }
 
-        public int Timer { get; set; } = 5;
+        public double Timer { get; set; } = 5.0;
         //public List<string> Folders { get; set; }
         public string Folders { get; set; } = "C:\\Images";
         public bool Shuffle { get; set; } = false;

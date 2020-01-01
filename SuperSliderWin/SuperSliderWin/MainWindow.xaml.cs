@@ -23,9 +23,10 @@ namespace SuperSliderWin
     /// </summary>
     public partial class MainWindow : Window
     {
-        private static DispatcherTimer playTimer = new DispatcherTimer();
-        private static string[] imageFiles;
-        private static Random random;
+        private static DispatcherTimer _playTimer = new DispatcherTimer();
+        private static string[] _imageFiles;
+        private static Random _random;
+        private static bool _updateFirstImage = true;
 
         public Settings Settings { get; set; }
         public MainWindow()
@@ -33,19 +34,34 @@ namespace SuperSliderWin
             InitializeComponent();
             this.Settings = Settings.LoadSettings();
             
-            playTimer.Tick += new EventHandler(playTimer_Tick);
+            _playTimer.Tick += new EventHandler(playTimer_Tick);
         }
 
         private void playTimer_Tick(object sender, EventArgs e)
         {
-            int nextRandom = random.Next(0, imageFiles.Length-1);
+            int nextRandom = _random.Next(0, _imageFiles.Length-1);
 
             BitmapImage bitImage = new BitmapImage();
             bitImage.BeginInit();
-            bitImage.UriSource = new Uri(imageFiles[nextRandom], UriKind.Absolute);
+            bitImage.UriSource = new Uri(_imageFiles[nextRandom], UriKind.Absolute);
             bitImage.EndInit();
-            SlideImage.Stretch = Settings.Style;
-            SlideImage.Source = bitImage;
+
+            if (_updateFirstImage)
+            {
+                SlideImage.Stretch = Settings.Style;
+                SlideImage.Source = bitImage;
+                SlideImage.Opacity = 1;
+                SlideImageSecond.Opacity = 0;
+                _updateFirstImage = false;
+            }
+            else
+            {
+                SlideImageSecond.Stretch = Settings.Style;
+                SlideImageSecond.Source = bitImage;
+                SlideImageSecond.Opacity = 1;
+                SlideImage.Opacity = 0;
+                _updateFirstImage = true;
+            }
         }
 
         private void settingsMenu_Click(object sender, RoutedEventArgs e)
@@ -64,7 +80,7 @@ namespace SuperSliderWin
             else
             {
                 PlayMenu.Header = "Play";
-                playTimer.Stop();
+                _playTimer.Stop();
             }
         }
 
@@ -73,12 +89,18 @@ namespace SuperSliderWin
             if (Directory.Exists(this.Settings.Folders) == false)
                 return;
 
-            imageFiles = Directory.GetFiles(this.Settings.Folders, "*.jpg", SearchOption.AllDirectories);
-            random = new Random();
-            playTimer.Interval = new TimeSpan(0, 0, this.Settings.Timer);
+            _imageFiles = Directory.GetFiles(this.Settings.Folders, "*.jpg", SearchOption.AllDirectories);
+            _random = new Random();
+            _playTimer.Interval = new TimeSpan(0, 0, 0, 0, (int) (this.Settings.Timer * 1000));
 
-            playTimer.Start();
+            _playTimer.Start();
 
+        }
+
+        private void TransitionMenu_Click(object sender, RoutedEventArgs e)
+        {
+            var transitionWindow = new ImageTransition();
+            transitionWindow.Show();
         }
     }
 }

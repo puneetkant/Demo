@@ -6,15 +6,19 @@
         xmlns:local="clr-namespace:SuperSliderWin"
         mc:Ignorable="d"
         Title="SuperSlider" Height="450" Width="800">
-    <DockPanel>
-        <Menu DockPanel.Dock="Top">
+    <StackPanel>
+        <Menu >
             <MenuItem Header="Tools">
                 <MenuItem x:Name="settingsMenu" Header="_Settings" Click="settingsMenu_Click"/>
                 <Separator />
                 <MenuItem Header="_Exit" />
             </MenuItem>
             <MenuItem x:Name="PlayMenu" Header="Play" Click="PlayMenu_Click"/>
+            <MenuItem x:Name="TransitionMenu" Header="Transition" Click="TransitionMenu_Click"  />
         </Menu>
-        <Image x:Name="SlideImage" Height="Auto" Width="Auto" Margin="0,4,0,4"/>
-    </DockPanel>
+        <Grid>
+            <Image x:Name="SlideImage" Margin="0,4,0,4" />
+            <Image x:Name="SlideImageSecond" Margin="0,4,0,4"/>
+        </Grid>
+    </StackPanel>
 </Window>
