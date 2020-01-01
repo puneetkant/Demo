@@ -13,6 +13,16 @@
             <Label >sec</Label>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
+            <Label >Fade-in Time</Label>
+            <TextBox x:Name="FadeInTimeTextBox" VerticalAlignment="Center" Width="50">5</TextBox>
+            <Label >sec</Label>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Label >Fade-out Time</Label>
+            <TextBox x:Name="FadeOutTimeTextBox" VerticalAlignment="Center" Width="50">5</TextBox>
+            <Label >sec</Label>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
             <Label >Folder</Label>
             <TextBox x:Name="FolderTextBox" VerticalAlignment="Center" Width="100">"C:\"</TextBox>
             <Button Margin="5,0,0,0"  Width="20" Height="20">...</Button>

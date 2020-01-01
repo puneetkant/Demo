@@ -26,6 +26,8 @@ namespace SuperSliderWin
         }
 
         public double Timer { get; set; } = 5.0;
+        public double FadeInTime { get; set; } = 1.0;
+        public double FadeOutTime { get; set; } = 1.0;
         //public List<string> Folders { get; set; }
         public string Folders { get; set; } = "C:\\Images";
         public bool Shuffle { get; set; } = false;
