@@ -14,6 +14,7 @@
                 <MenuItem Header="_Exit" />
             </MenuItem>
             <MenuItem x:Name="PlayMenu" Header="Play" Click="PlayMenu_Click"/>
+            <MenuItem x:Name="ShowRandomImageMenu" Header="RandomImage" Click="ShowRandomImageMenu_Click"/>
             <MenuItem x:Name="TransitionMenu" Header="Transition" Click="TransitionMenu_Click"  />
         </Menu>
         <Grid>

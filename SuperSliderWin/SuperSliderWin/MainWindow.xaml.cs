@@ -56,6 +56,9 @@ namespace SuperSliderWin
         {
             try
             {
+                if (_imageFiles == null || _imageFiles.Length == 0)
+                    return;
+
                 int nextRandom = _random.Next(0, _imageFiles.Length - 1);
 
                 BitmapImage bitImage = new BitmapImage();
@@ -105,19 +108,32 @@ namespace SuperSliderWin
 
         private void PlaySlides()
         {
-            if (Directory.Exists(this.Settings.Folders) == false)
-                return;
-
-            _imageFiles = Directory.GetFiles(this.Settings.Folders, "*.jpg", SearchOption.AllDirectories);
-
+            UpdateImageFiles();
             ShowNextImage();
             _playTimer.Start();
+        }
+
+        private void UpdateImageFiles()
+        {
+            if (Directory.Exists(this.Settings.Folders) == false)
+            {
+                _imageFiles = null;
+                return;
+            }
+
+            _imageFiles = Directory.GetFiles(this.Settings.Folders, "*.jpg", SearchOption.AllDirectories);
         }
 
         private void TransitionMenu_Click(object sender, RoutedEventArgs e)
         {
             var transitionWindow = new ImageTransition();
             transitionWindow.Show();
+        }
+
+        private void ShowRandomImageMenu_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateImageFiles();
+            ShowNextImage();
         }
     }
 }
