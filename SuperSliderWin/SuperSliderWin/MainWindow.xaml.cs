@@ -17,9 +17,6 @@ namespace SuperSliderWin
         private static string[] _imageFiles;
         private static Random _random;
         private static bool _updateFirstImage = true;
-        private static TimeSpan _fadeInTime;
-        private static TimeSpan _fadeOutTime;
-
         private static DoubleAnimation _fadeInAnimation;
         private static DoubleAnimation _fadeOutAnimation;
 
@@ -28,11 +25,6 @@ namespace SuperSliderWin
         {
             InitializeComponent();
             this.Settings = Settings.LoadSettings();
-
-            _fadeInTime = new TimeSpan(0, 0, 0, 0, (int)(this.Settings.FadeInTime * 1000));
-            _fadeOutTime = new TimeSpan(0, 0, 0, 0, (int)(this.Settings.FadeOutTime * 1000));
-            _fadeInAnimation = new DoubleAnimation(1d, _fadeInTime);
-            _fadeOutAnimation = new DoubleAnimation(0d, _fadeOutTime);
             _playTimer = new DispatcherTimer();
             _random = new Random();
             _playTimer.Tick += new EventHandler(playTimer_Tick);
@@ -43,7 +35,13 @@ namespace SuperSliderWin
         private void ApplySettings()
         {
             SlideImage.Stretch = this.Settings.Style;
+            SlideImage.StretchDirection = StretchDirection.Both;
             SlideImageSecond.Stretch = this.Settings.Style;
+            SlideImageSecond.StretchDirection = StretchDirection.Both;
+            var fadeInTime = new TimeSpan(0, 0, 0, 0, (int)(this.Settings.FadeInTime * 1000));
+            var fadeOutTime = new TimeSpan(0, 0, 0, 0, (int)(this.Settings.FadeOutTime * 1000));
+            _fadeInAnimation = new DoubleAnimation(1d, fadeInTime);
+            _fadeOutAnimation = new DoubleAnimation(0d, fadeOutTime);
             _playTimer.Interval = new TimeSpan(0, 0, 0, 0, (int)(this.Settings.Timer * 1000));
         }
 
@@ -60,14 +58,38 @@ namespace SuperSliderWin
                     return;
 
                 int nextRandom = _random.Next(0, _imageFiles.Length - 1);
+                var imageName = _imageFiles[nextRandom];
+                ImageNameTextBlock.Text = imageName;
+
+                double snugContentWidth = this.ActualWidth;
+                double snugContentHeight = this.ActualHeight;
+
+                var horizontalBorderHeight = SystemParameters.ResizeFrameHorizontalBorderHeight;
+                var verticalBorderWidth = SystemParameters.ResizeFrameVerticalBorderWidth;
+                var captionHeight = SystemParameters.CaptionHeight;
+
+                var clientWidth = snugContentWidth + 2.0 * verticalBorderWidth;
+                var clientHeight = snugContentHeight + captionHeight + 2.0 * horizontalBorderHeight;
 
                 BitmapImage bitImage = new BitmapImage();
+                bitImage.CacheOption = BitmapCacheOption.None;
                 bitImage.BeginInit();
-                bitImage.UriSource = new Uri(_imageFiles[nextRandom], UriKind.Absolute);
+                bitImage.UriSource = new Uri(imageName, UriKind.Absolute);
+                bitImage.DecodePixelWidth = (int)(clientWidth);  
+                bitImage.DecodePixelHeight = (int)(clientHeight - MainMenuBar.RenderSize.Height);
                 bitImage.EndInit();
+                bitImage.Freeze();
+
+                MainStackPanel.Height = clientHeight;
+                MainStackPanel.Width = clientWidth;
+                MainStackPanel.Height = double.NaN;
+                MainStackPanel.Width = double.NaN;
 
                 if (_updateFirstImage)
                 {
+                    //SlideImage.Width = (int)clientWidth;
+                    //SlideImage.Height = (int)clientHeight;
+
                     SlideImage.Source = bitImage;
                     _updateFirstImage = false;
                     SlideImage.BeginAnimation(Image.OpacityProperty, _fadeInAnimation);
@@ -75,6 +97,9 @@ namespace SuperSliderWin
                 }
                 else
                 {
+                    //SlideImageSecond.Width = (int)clientWidth;
+                    //SlideImageSecond.Height = (int)clientHeight;
+
                     SlideImageSecond.Source = bitImage;
                     _updateFirstImage = true;
                     SlideImage.BeginAnimation(Image.OpacityProperty, _fadeOutAnimation);
@@ -124,16 +149,15 @@ namespace SuperSliderWin
             _imageFiles = Directory.GetFiles(this.Settings.Folders, "*.jpg", SearchOption.AllDirectories);
         }
 
-        private void TransitionMenu_Click(object sender, RoutedEventArgs e)
-        {
-            var transitionWindow = new ImageTransition();
-            transitionWindow.Show();
-        }
-
         private void ShowRandomImageMenu_Click(object sender, RoutedEventArgs e)
         {
             UpdateImageFiles();
             ShowNextImage();
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

@@ -5,21 +5,21 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SuperSliderWin"
         mc:Ignorable="d"
-        Title="SuperSlider" Height="450" Width="800">
-    <StackPanel>
-        <Menu >
+        Title="SuperSlider" Height="450" Width="450">
+    <StackPanel x:Name="MainStackPanel">
+        <Menu x:Name="MainMenuBar">
             <MenuItem Header="Tools">
                 <MenuItem x:Name="settingsMenu" Header="_Settings" Click="settingsMenu_Click"/>
                 <Separator />
-                <MenuItem Header="_Exit" />
+                <MenuItem Header="_Exit" Click="MenuItem_Click"/>
             </MenuItem>
             <MenuItem x:Name="PlayMenu" Header="Play" Click="PlayMenu_Click"/>
             <MenuItem x:Name="ShowRandomImageMenu" Header="RandomImage" Click="ShowRandomImageMenu_Click"/>
-            <MenuItem x:Name="TransitionMenu" Header="Transition" Click="TransitionMenu_Click"  />
-        </Menu>
-        <Grid>
-            <Image x:Name="SlideImage" Margin="0,4,0,4" />
-            <Image x:Name="SlideImageSecond" Margin="0,4,0,4"/>
+        </Menu>        
+        <Grid x:Name="ImageGrid">
+            <Image x:Name="SlideImage" Height="Auto" Width="Auto"/>
+            <Image x:Name="SlideImageSecond" Height="Auto" Width="Auto"/>
+            <TextBlock x:Name="ImageNameTextBlock" Background="Transparent"></TextBlock>
         </Grid>
     </StackPanel>
 </Window>
