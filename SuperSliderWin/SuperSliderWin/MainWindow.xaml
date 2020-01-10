@@ -18,10 +18,10 @@
                       Click="ShowRandomImageMenu_Click"/>
             <MenuItem x:Name="FullScreenMenu" Header="[ ]" Click="FullScreenMenu_Click"/>
         </Menu>        
-        <!--<Grid x:Name="ImageGrid">-->
+        <Grid x:Name="ImageGrid">
             <Image x:Name="SlideImage" Height="Auto" Width="Auto"/>
-            <!--<Image x:Name="SlideImageSecond" Height="Auto" Width="Auto"/>-->
-            <!--<TextBlock x:Name="ImageNameTextBlock" Background="Transparent"></TextBlock>-->
-        <!--</Grid>-->
+            <Image x:Name="SlideImageSecond" Height="Auto" Width="Auto"/>
+            <TextBlock x:Name="ImageNameTextBlock" Background="Transparent"></TextBlock>
+        </Grid>
     </StackPanel>
 </Window>
