@@ -60,9 +60,7 @@ namespace SuperSliderWin
             {
                 if (_imageFiles == null || _imageFiles.Length == 0)
                     return;
-
-                int nextRandom = _random.Next(0, _imageFiles.Length - 1);
-                var imageName = _imageFiles[nextRandom];
+                string imageName = GetNextImageName();
                 ImageNameTextBlock.Text = imageName;
 
                 //double snugContentWidth = this.ActualWidth;
@@ -74,22 +72,8 @@ namespace SuperSliderWin
 
                 //var clientWidth = snugContentWidth + 2.0 * verticalBorderWidth;
                 //var clientHeight = snugContentHeight + captionHeight + 2.0 * horizontalBorderHeight;
-
-                BitmapImage bitImage = new BitmapImage();
-
-                //var previousFileStream = _fileStream;
-                _previousFileStreams.Push(_fileStream);
-
-                _fileStream = File.OpenRead(imageName);
-                bitImage.CacheOption = BitmapCacheOption.OnLoad;
-                bitImage.BeginInit();
-                bitImage.StreamSource = _fileStream;
-                //bitImage.DecodePixelWidth = (int)(clientWidth);  
-                //bitImage.DecodePixelHeight = (int)(clientHeight - MainMenuBar.RenderSize.Height);
-                bitImage.EndInit();
-                bitImage.Freeze();
-                //SlideImage.Source = bitImage;
-
+                PushPreviousFileStreams();
+                BitmapImage bitmapImage = CreateBitmapFromImageName(imageName);
 
                 //MainStackPanel.Height = clientHeight;
                 //MainStackPanel.Width = clientWidth;
@@ -99,9 +83,8 @@ namespace SuperSliderWin
                 {
                     //SlideImage.Width = (int)clientWidth;
                     //SlideImage.Height = (int)clientHeight;
-                    SlideImage.Source = bitImage;
+                    SlideImage.Source = bitmapImage;
                     _updateFirstImage = false;
-
 
                     SlideImage.BeginAnimation(Image.OpacityProperty, _fadeInAnimation);
                     SlideImageSecond.BeginAnimation(Image.OpacityProperty, _fadeOutAnimation);
@@ -111,40 +94,71 @@ namespace SuperSliderWin
                     //SlideImageSecond.Width = (int)clientWidth;
                     //SlideImageSecond.Height = (int)clientHeight;
 
-                    SlideImageSecond.Source = bitImage;
+                    SlideImageSecond.Source = bitmapImage;
                     _updateFirstImage = true;
                     SlideImage.BeginAnimation(Image.OpacityProperty, _fadeOutAnimation);
                     SlideImageSecond.BeginAnimation(Image.OpacityProperty, _fadeInAnimation);
                 }
                 //MainStackPanel.Height = double.NaN;
                 //MainStackPanel.Width = double.NaN;
-                //GC.Collect();
 
                 _fadeOutAnimation.Completed += (o, e) =>
                 {
-                    //SlideImage.Source = bitImage;
-                    //SlideImage.BeginAnimation(Image.OpacityProperty, _fadeInAnimation);
-                    lock (_previousFileStreams)
-                    {
-                        while (_previousFileStreams.Count > 0)
-                        {
-                            var previousFileStream = _previousFileStreams.Pop();
-
-                            if (previousFileStream != null)
-                            {
-                                previousFileStream.Close();
-                                previousFileStream.Dispose();
-                                previousFileStream = null;
-                            }
-                        }
-                    }
-
-                    GC.Collect();
-                    GC.WaitForPendingFinalizers();
-                    GC.Collect();
+                    DisposePreviousFileStreams();
                 };
             }
-            catch { }
+            catch (Exception) { }
+        }
+
+        private static void PushPreviousFileStreams()
+        {
+            if (_fileStream != null)
+            {
+                _previousFileStreams.Push(_fileStream);
+            }
+        }
+
+        private static BitmapImage CreateBitmapFromImageName(string imageName)
+        {
+            BitmapImage bitImage = new BitmapImage();
+            _fileStream = File.OpenRead(imageName);
+            bitImage.CacheOption = BitmapCacheOption.OnLoad;
+            bitImage.BeginInit();
+            bitImage.StreamSource = _fileStream;
+            //bitImage.DecodePixelWidth = (int)(clientWidth);  
+            //bitImage.DecodePixelHeight = (int)(clientHeight - MainMenuBar.RenderSize.Height);
+            bitImage.EndInit();
+            bitImage.Freeze();
+            return bitImage;
+        }
+
+        private static string GetNextImageName()
+        {
+            int nextRandom = _random.Next(0, _imageFiles.Length - 1);
+            var imageName = _imageFiles[nextRandom];
+            return imageName;
+        }
+
+        private static void DisposePreviousFileStreams()
+        {
+            lock (_previousFileStreams)
+            {
+                while (_previousFileStreams.Count > 0)
+                {
+                    var previousFileStream = _previousFileStreams.Pop();
+
+                    if (previousFileStream != null)
+                    {
+                        previousFileStream.Close();
+                        previousFileStream.Dispose();
+                        previousFileStream = null;
+                    }
+                }
+            }
+
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            GC.Collect();
         }
 
         private void settingsMenu_Click(object sender, RoutedEventArgs e)
