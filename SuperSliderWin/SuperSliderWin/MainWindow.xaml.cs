@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
@@ -54,13 +55,13 @@ namespace SuperSliderWin
             ShowNextImage();
         }
 
-        private void ShowNextImage()
+        private async void ShowNextImage()
         {
             try
             {
                 if (_imageFiles == null || _imageFiles.Length == 0)
                     return;
-                string imageName = GetNextImageName();
+                string imageName = await GetNextImageName();
                 ImageNameTextBlock.Text = imageName;
 
                 //double snugContentWidth = this.ActualWidth;
@@ -72,8 +73,8 @@ namespace SuperSliderWin
 
                 //var clientWidth = snugContentWidth + 2.0 * verticalBorderWidth;
                 //var clientHeight = snugContentHeight + captionHeight + 2.0 * horizontalBorderHeight;
-                PushPreviousFileStreams();
-                BitmapImage bitmapImage = CreateBitmapFromImageName(imageName);
+                PushPreviousFileStream();
+                BitmapImage bitmapImage = await CreateBitmapFromImageName(imageName);
 
                 //MainStackPanel.Height = clientHeight;
                 //MainStackPanel.Width = clientWidth;
@@ -110,7 +111,7 @@ namespace SuperSliderWin
             catch (Exception) { }
         }
 
-        private static void PushPreviousFileStreams()
+        private static void PushPreviousFileStream()
         {
             if (_fileStream != null)
             {
@@ -118,7 +119,7 @@ namespace SuperSliderWin
             }
         }
 
-        private static BitmapImage CreateBitmapFromImageName(string imageName)
+        private static async Task<BitmapImage> CreateBitmapFromImageName(string imageName)
         {
             BitmapImage bitImage = new BitmapImage();
             _fileStream = File.OpenRead(imageName);
@@ -132,14 +133,14 @@ namespace SuperSliderWin
             return bitImage;
         }
 
-        private static string GetNextImageName()
+        private static async Task<string> GetNextImageName()
         {
             int nextRandom = _random.Next(0, _imageFiles.Length - 1);
             var imageName = _imageFiles[nextRandom];
             return imageName;
         }
 
-        private static void DisposePreviousFileStreams()
+        private static async void DisposePreviousFileStreams()
         {
             lock (_previousFileStreams)
             {
